@@ -1,17 +1,19 @@
 const jwt = require('jsonwebtoken')
 const Model = require('../model/userModel')
+const bcrypt = require('bcrypt')
+const asyncHandler = require('express-async-handler')
 
 module.exports = {
 
     signup: async (req, res) => {
         try {
-            const userWithEmail = await User.find({ email: req.body.email })
+            const userWithEmail = await Model.find({ email: req.body.email })
             if (userWithEmail.length !== 0) {
                 res.status(200).send({ error_msg: 'Email is already registered', success: false })
             } else {
                 const bcryptedPassword = await bcrypt.hash(req.body.password, 10)
                 await Model.create({
-                    firstName: req.body.firsName,
+                    firstName: req.body.firstName,
                     lastName: req.body.lastName,
                     email: req.body.email,
                     password: bcryptedPassword,
@@ -130,7 +132,7 @@ module.exports = {
                 asyncHandler(async (err, decoded) => {
                     if (err) return res.status(403).json({ message: 'Forbidden' })
 
-                    const user = await User.findOne({ _id: decoded.id }).select('-password')
+                    const user = await Model.findOne({ _id: decoded.id }).select('-password')
 
                     if (!user || user.isBanned) return res.status(401).json({ message: 'Unauthorized' })
 
