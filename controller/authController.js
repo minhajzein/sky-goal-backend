@@ -26,8 +26,8 @@ module.exports = {
                     {
                         'UserInfo': {
                             'id': user._id,
-                            'username': user.username,
-                            'type': user.type
+                            'username': user.firstName,
+                            'type': user.lastName
                         }
                     },
                     process.env.ACCESS_TOKEN_SECRET,
@@ -67,8 +67,8 @@ module.exports = {
                             {
                                 'UserInfo': {
                                     'id': user._id,
-                                    'username': user.username,
-                                    'type': user.type
+                                    'username': user.firstName,
+                                    'type': user.lastName
                                 }
                             },
                             process.env.ACCESS_TOKEN_SECRET,
@@ -139,8 +139,8 @@ module.exports = {
                     const accessToken = jwt.sign(
                         {
                             'UserInfo': {
-                                'username': user.username,
-                                'type': user.type
+                                'username': user.firstName,
+                                'type': user.lastName
                             }
                         },
                         process.env.ACCESS_TOKEN_SECRET,
